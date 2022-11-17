@@ -1,0 +1,60 @@
+// C++ implementation of worst - Fit algorithm 
+#include<bits/stdc++.h> 
+using namespace std; 
+void worstFit(int blockSize[], int m, int processSize[],  
+                                                 int n) 
+{ 
+    int allocation[n]; 
+  
+    memset(allocation, -1, sizeof(allocation)); 
+    for (int i=0; i<n; i++) 
+    { 
+        int wstIdx = -1; 
+        for (int j=0; j<m; j++) 
+        { 
+            if (blockSize[j] >= processSize[i]) 
+            { 
+                if (wstIdx == -1) 
+                    wstIdx = j; 
+                else if (blockSize[wstIdx] < blockSize[j]) 
+                    wstIdx = j; 
+            } 
+        } 
+  
+        if (wstIdx != -1) 
+        { 
+            allocation[i] = wstIdx; 
+  
+            blockSize[wstIdx] -= processSize[i]; 
+        } 
+    } 
+  
+    cout << "Process No.	Process Size	Block no.\n"; 
+    for (int i = 0; i < n; i++) 
+    { 
+        cout << "   " << i+1 << " \t\t\t" << processSize[i] << " \t\t\t"; 
+        if (allocation[i] != -1) 
+            cout << allocation[i] + 1<<"\t\t\t"; 
+        else
+            cout << "Not Allocated"; 
+        cout << endl; 
+    } 
+} 
+int main() 
+{ 
+    int blockSize[10], processSize[10], bno, pno;
+    cout<<"Enter no. of blocks: ";
+    cin>>bno;
+    cout<<"\nEnter size of each block: ";
+    for(int i = 0; i < bno; i++)
+        cin>>blockSize[i];
+    cout<<"\nEnter no. of processes: ";
+    cin>>pno;
+    cout<<"\nEnter size of each process: ";
+    for(int i = 0; i < pno; i++)
+        cin>>processSize[i]; 
+  
+    worstFit(blockSize, bno, processSize, pno); 
+  
+    return 0 ; 
+} 
